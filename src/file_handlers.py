@@ -12,12 +12,14 @@ def read_csv(file_path: str) -> List[Dict[str, str]]:
         file_path: Путь к CSV-файлу
 
     Returns:
-        Список словарей с транзакциями (все значения строковые)
+        Список словарей с транзакциями, где ключи - названия столбцов,
+        значения - строковые представления данных
     """
     transactions = []
     with open(file_path, mode='r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
         for row in reader:
+            # Добавляем каждую строку как словарь
             transactions.append(dict(row))
     return transactions
 
@@ -30,8 +32,14 @@ def read_excel(file_path: str) -> List[Dict[str, str]]:
         file_path: Путь к Excel-файлу
 
     Returns:
-        Список словарей с транзакциями (все значения строковые)
+        Список словарей с транзакциями, где ключи - названия столбцов,
+        значения - строковые представления данных
     """
+    # Читаем Excel-файл с помощью pandas
     df = pd.read_excel(file_path)
+
     # Конвертируем все значения в строки для единообразия
-    return df.astype(str).to_dict(orient='records')
+    df = df.astype(str)
+
+    # Преобразуем DataFrame в список словарей
+    return df.to_dict(orient='records')
