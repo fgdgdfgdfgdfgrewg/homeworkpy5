@@ -1,24 +1,18 @@
-## Новая функциональность
+## Новая функциональность: Поддержка CSV и Excel форматов
 
-### Поддержка новых форматов данных
-- Чтение транзакций из CSV-файлов: `read_csv(file_path)`
-- Чтение транзакций из Excel-файлов: `read_excel(file_path)`
+Теперь приложение поддерживает чтение финансовых транзакций из CSV и Excel файлов.
 
-### Пример использования
-```python
-from src.file_handlers import read_csv, read_excel
+### Доступные функции
 
-csv_data = read_csv("data/transactions.csv")
-excel_data = read_excel("data/transactions_excel.xlsx")
-
-### Проверочные команды:
-
-1. Запуск тестов:
-```bash
-pytest --cov=src/file_handlers.py
-
-flake8 src/file_handlers.py
-
-mypy src/file_handlers.py
-
-isort src/file_handlers.py
+#### `read_csv(file_path: str) -> List[Dict]`
+- **Описание**: Считывает финансовые операции из CSV-файла
+- **Параметры**:
+  - `file_path`: Путь к CSV-файлу
+- **Возвращает**: Список словарей, где каждый словарь представляет одну транзакцию
+- **Пример использования**:
+  ```python
+  from src.file_handlers import read_csv
+  
+  transactions = read_csv("data/transactions.csv")
+  for transaction in transactions:
+      print(f"ID: {transaction['id']}, Amount: {transaction['amount']}, Date: {transaction['date']}")
