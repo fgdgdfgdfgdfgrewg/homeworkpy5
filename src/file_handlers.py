@@ -1,5 +1,5 @@
 import csv
-from typing import Dict, List
+from typing import Dict, List, cast
 
 import pandas as pd
 
@@ -19,7 +19,6 @@ def read_csv(file_path: str) -> List[Dict[str, str]]:
     with open(file_path, mode='r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
         for row in reader:
-            # Добавляем каждую строку как словарь
             transactions.append(dict(row))
     return transactions
 
@@ -38,8 +37,11 @@ def read_excel(file_path: str) -> List[Dict[str, str]]:
     # Читаем Excel-файл с помощью pandas
     df = pd.read_excel(file_path)
 
-    # Конвертируем все значения в строки для единообразия
+    # Конвертируем все значения в строки
     df = df.astype(str)
 
     # Преобразуем DataFrame в список словарей
-    return df.to_dict(orient='records')
+    records = df.to_dict(orient='records')
+
+    # Явное преобразование типов для mypy
+    return cast(List[Dict[str, str]], records)
